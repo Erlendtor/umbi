@@ -2,7 +2,7 @@
 <html lang="no">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Umbi – Venteliste</title>
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -57,7 +57,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
-      padding: 22dvh 24px 10dvh;
+      padding: calc(22dvh + env(safe-area-inset-top)) 24px calc(10dvh + env(safe-area-inset-bottom));
     }
 
     .logo-group {
