@@ -17,17 +17,13 @@
 
     html {
       width: 100%;
-      max-width: 100%;
-      height: -webkit-fill-available;
-      height: 100dvh;
+      height: 100%;
       overflow: hidden;
     }
 
     body {
       width: 100%;
-      max-width: 100%;
-      min-height: -webkit-fill-available;
-      min-height: 100dvh;
+      height: 100%;
       overflow: hidden;
       overscroll-behavior: none;
       font-family: 'Lora', Georgia, serif;
@@ -35,15 +31,16 @@
 
     .video-bg {
       position: fixed;
-      top: -10px;
+      top: 0;
       left: 0;
       width: 100%;
-      height: calc(100dvh + 10px);
+      /* 100lvh = large viewport height: alltid maksimal høyde, også når Safari-baren er synlig.
+         Videoen strekker seg dermed bak Safari-bunnbaren og bak notchen (top: 0 + viewport-fit=cover). */
+      height: 100lvh;
       object-fit: cover;
       object-position: center center;
       z-index: 0;
     }
-
 
     .content {
       position: fixed;
@@ -51,13 +48,12 @@
       left: 0;
       right: 0;
       bottom: 0;
-      height: 100dvh;
       z-index: 2;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
-      padding: calc(22dvh + env(safe-area-inset-top)) 24px calc(10dvh + env(safe-area-inset-bottom));
+      padding: calc(env(safe-area-inset-top, 0px) + 22dvh) 24px calc(env(safe-area-inset-bottom, 0px) + 10dvh);
     }
 
     .logo-group {
@@ -214,7 +210,8 @@
 
     @media (max-width: 600px) {
       .content {
-        padding: 22dvh 0 10dvh;
+        /* Safe-area insets MÅ også være med på mobil — dette er der notch og hjemindikator sitter */
+        padding: calc(env(safe-area-inset-top, 0px) + 22dvh) 0 calc(env(safe-area-inset-bottom, 0px) + 10dvh);
         justify-content: space-between;
       }
 
