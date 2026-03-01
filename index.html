@@ -310,6 +310,12 @@
   </div>
 
   <script>
+    // CSS animation creates a stacking context that blocks backdrop-filter.
+    // Remove the animation property once it finishes to restore the blur effect.
+    document.querySelectorAll('.logo-group, .waitlist').forEach(el => {
+      el.addEventListener('animationend', () => { el.style.animation = 'none'; }, { once: true });
+    });
+
     function handleSubmit(e) {
       e.preventDefault();
       const form = document.getElementById('form');
