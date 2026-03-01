@@ -196,6 +196,29 @@
       opacity: 1;
       transform: translateY(0);
     }
+
+    @media (max-width: 600px) {
+      .content {
+        padding: 22vh 0 8vh;
+        justify-content: space-between;
+      }
+
+      .waitlist {
+        width: 90%;
+        max-width: 90%;
+      }
+
+      .waitlist-form {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .waitlist-input,
+      .waitlist-btn {
+        width: 100%;
+        text-align: center;
+      }
+    }
   </style>
 </head>
 <body>
