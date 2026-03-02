@@ -323,13 +323,9 @@
       const msg = document.getElementById('msg');
       const email = form.querySelector('input[type="email"]').value;
 
-      // Send til Google Forms (fire-and-forget)
-      fetch('https://docs.google.com/forms/d/e/1FAIpQLSfzMKguspCEo0sN0JKg_5vEHJA_gg1UHFwv_U6KWOwxTEiB4Q/formResponse', {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: 'entry.1972383418=' + encodeURIComponent(email)
-      }).catch(() => {});
+      // Send til Google Forms via skjult iframe (pålitelig uten CORS-problemer)
+      document.getElementById('gf-email').value = email;
+      document.getElementById('gf-form').submit();
 
       // 1. Form fades out and slides up (0–350ms)
       form.classList.add('collapsing');
@@ -354,6 +350,18 @@
       }, 350);
     }
   </script>
+
+  <!-- Skjult Google Forms-poster -->
+  <iframe name="gf-iframe" style="display:none"></iframe>
+  <form
+    id="gf-form"
+    action="https://docs.google.com/forms/d/e/1FAIpQLSfzMKguspCEo0sN0JKg_5vEHJA_gg1UHFwv_U6KWOwxTEiB4Q/formResponse"
+    method="POST"
+    target="gf-iframe"
+    style="display:none"
+  >
+    <input id="gf-email" name="entry.1972383418">
+  </form>
 
 </body>
 </html>
