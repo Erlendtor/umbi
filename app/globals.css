@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+@theme {
+  --color-umbi-dark: #1F1914;
+  --color-umbi-beige: #FFEFE0;
+  --color-umbi-bg: #FFF5EC;
+  
+  --font-serif: "Georgia", serif;
+  --font-sans: var(--font-sans);
+}
+
+@layer base {
+  body {
+    @apply bg-umbi-bg text-umbi-dark font-sans antialiased;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif font-bold;
+  }
+}
+
+.markdown-body {
+  @apply prose prose-stone max-w-none;
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
