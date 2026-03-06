@@ -1,0 +1,62 @@
+/*
+ * UMBI DESIGN TOKENS
+ * Dette er det eneste stedet du trenger å redigere for å endre utseendet på nettsiden.
+ */
+
+@theme {
+  /* FARGER */
+  --color-umbi-dark:  #1F1914;
+  --color-umbi-beige: #FFEFE0;
+  --color-umbi-bg:    #FFF5EC;
+  --color-umbi-black: #1a1a1a;   /* Produktfarge: Svart */
+  --color-umbi-brown: #5D4037;   /* Produktfarge: Brun */
+
+  /* FONTER */
+  --font-serif: "Georgia", serif;
+  --font-sans:  ui-sans-serif, system-ui, sans-serif;
+
+  /* FONTSTØRRELSER — semantisk navngiving */
+  --text-display:       clamp(3rem, 7vw, 5rem);    /* Mega-overskrift */
+  --text-headline:      clamp(2rem, 4vw, 3.75rem); /* Store h2-er */
+  --text-section-title: 1.875rem;                  /* text-3xl */
+  --text-panel-title:   1.3125rem;                 /* 21px */
+  --text-body-lg:       1.25rem;                   /* 20px */
+  --text-body:          1.125rem;                  /* 18px */
+  --text-ui:            1rem;                      /* 16px — knapper, lenker */
+  --text-ui-sm:         0.9375rem;                 /* 15px */
+  --text-caption:       0.875rem;                  /* 14px */
+  --text-label:         0.625rem;                  /* 10px — uppercase labels */
+  --text-micro:         0.5625rem;                 /* 9px — badges */
+
+  /* BORDER RADIUS — semantisk navngiving */
+  --radius-ui:      5px;       /* Knapper, input-felt */
+  --radius-card:    1rem;      /* Kort, floating panel (= rounded-2xl) */
+  --radius-panel:   1.5625rem; /* 25px — glasspanel */
+  --radius-feature: 2.0625rem; /* 33px — featured seksjon */
+  --radius-large:   2.5rem;    /* 40px — store bilder og innholdskort */
+}
+
+:root {
+  /* Navbar */
+  --navbar-height:    81px;
+  --navbar-px-md:     9.375rem;  /* 150px — navbar side-padding */
+  --hero-top-offset:  calc(var(--navbar-height) + 1.5rem);
+
+  /* Seksjonspadding */
+  --section-px:       1.5rem;   /* px-6 mobil */
+  --section-px-md:    var(--navbar-px-md); /* 150px desktop — linjerer med navbar */
+  --section-py-sm:    3rem;     /* py-12 */
+  --section-py-sm-md: 5rem;     /* py-20 */
+  --section-py:       6rem;     /* py-24 */
+  --section-py-md:    10rem;    /* py-40 */
+  --section-py-xl-md: 12rem;    /* py-48 */
+
+  /* Innholdsbredder */
+  --content-width:      72rem;  /* max-w-6xl */
+  --content-width-wide: 80rem;  /* max-w-7xl */
+
+  /* Footer */
+  --footer-pt:    3.75rem;
+  --footer-pb:    6.25rem;
+  --footer-px-md: 9.375rem;
+}

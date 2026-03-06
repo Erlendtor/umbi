@@ -6,7 +6,9 @@ import Image from 'next/image';
 import { motion } from 'motion/react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { ChevronRight, Droplets, Battery, Zap, Wind } from 'lucide-react';
+import { Droplets, Battery, Zap, Wind } from 'lucide-react';
+
+const imgUmbiUnoWordmark = '/Umbi Uno logo.png';
 
 export default function HomePage() {
   return (
@@ -14,52 +16,52 @@ export default function HomePage() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden bg-umbi-dark">
-        <Image
-          src="/input_file_2.png"
-          alt="Umbi Uno i et moderne kjøkken"
-          fill
-          className="object-cover opacity-80"
-          priority
-          referrerPolicy="no-referrer"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60" />
-        
-        <div className="relative z-10 text-center px-6 max-w-4xl">
+      <section data-nav-theme="dark" className="relative h-screen flex items-end overflow-hidden bg-umbi-dark">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src="/umbi nettside.mp4" type="video/mp4" />
+        </video>
+
+        <div className="relative z-10 px-6 md:px-[var(--navbar-px-md)] pb-[12%] flex flex-col gap-7 items-start w-fit">
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.2, ease: "easeOut" }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.2, ease: 'easeOut' }}
           >
-            <h1 className="text-5xl md:text-8xl text-white mb-8 tracking-tight font-serif">
-              Umbi Uno
-            </h1>
+            <div className="relative w-[280px] md:w-[364px] h-[48px] md:h-[63px]">
+              <Image src={imgUmbiUnoWordmark} alt="Umbi Uno" fill className="object-contain object-left" priority />
+            </div>
           </motion.div>
-          
-          <motion.p 
+
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-lg md:text-2xl text-umbi-beige/90 mb-12 font-light tracking-wide max-w-2xl mx-auto leading-relaxed"
+            className="font-serif text-body text-umbi-beige leading-relaxed max-w-[520px]"
           >
-            Et autonomt selvdyrkesystem for høykvalitets matsopp rett fra kjøkkenbenken.
+            En autonom enhet for dyrking av høykvalitets<br />matsopp rett fra kjøkkenbenken.
           </motion.p>
-          
-          <motion.div 
+
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 justify-center items-center"
+            className="flex flex-row gap-[11px]"
           >
-            <Link 
-              href="/design" 
-              className="w-full sm:w-64 py-4 bg-umbi-beige text-umbi-dark rounded-full font-bold uppercase tracking-[0.2em] text-[10px] hover:scale-105 transition-transform text-center shadow-2xl"
+            <Link
+              href="/design"
+              className="h-[44px] px-[21px] bg-umbi-beige backdrop-blur-sm border-[0.5px] border-white/80 rounded-ui font-serif text-ui text-umbi-dark flex items-center hover:opacity-90 transition-opacity whitespace-nowrap"
             >
               Design din Umbi Uno
             </Link>
-            <Link 
-              href="#slik-fungerer-det" 
-              className="w-full sm:w-64 py-4 border border-white/30 text-white rounded-full font-bold uppercase tracking-[0.2em] text-[10px] hover:bg-white/10 transition-colors text-center backdrop-blur-sm"
+            <Link
+              href="#slik-fungerer-det"
+              className="h-[44px] px-[21px] bg-white/20 backdrop-blur-sm rounded-ui font-serif text-ui text-umbi-beige flex items-center hover:bg-white/30 transition-colors whitespace-nowrap"
             >
               Om produktet
             </Link>
@@ -68,74 +70,73 @@ export default function HomePage() {
       </section>
 
       {/* Slik fungerer det */}
-      <section id="slik-fungerer-det" className="py-24 md:py-40 px-6 md:px-12 bg-umbi-bg">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-24 md:mb-32">
-            <h2 className="text-4xl md:text-7xl mb-6">Slik fungerer det</h2>
-            <div className="w-24 h-px bg-umbi-dark/20 mx-auto" />
+      <section data-nav-theme="light" id="slik-fungerer-det" className="section-padding-sm bg-umbi-bg">
+        <div className="content-container">
+          <div className="text-center mb-10 md:mb-14">
+            <h2 className="text-3xl md:text-5xl mb-4">Slik fungerer det</h2>
+            <div className="w-16 h-px bg-umbi-dark/20 mx-auto" />
           </div>
-          
+
           <div className="relative">
-            {/* Vertical Line */}
             <div className="absolute left-1/2 top-0 bottom-0 w-px bg-umbi-dark/10 hidden lg:block" />
-            
-            <div className="space-y-24 md:space-y-48">
+
+            <div className="space-y-10 md:space-y-16">
               {/* Step 1 */}
-              <div className="relative flex flex-col lg:flex-row items-center lg:justify-between">
-                <div className="lg:w-[42%] text-center lg:text-right mb-12 lg:mb-0">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-umbi-dark/30 mb-4 block">01</span>
-                  <h3 className="text-3xl md:text-4xl mb-6">Sett inn en Umbi Pod</h3>
-                  <p className="text-umbi-dark/60 leading-relaxed">Velg mellom rosa østersopp og blågrå østersopp.</p>
+              <div className="relative flex flex-col lg:flex-row items-center lg:justify-between gap-6">
+                <div className="lg:w-[42%] text-center lg:text-right">
+                  <span className="text-label font-bold uppercase tracking-[0.3em] text-umbi-dark/30 mb-2 block">01</span>
+                  <h3 className="text-2xl md:text-3xl mb-3">Sett inn en Umbi Pod</h3>
+                  <p className="text-sm text-umbi-dark/60 leading-relaxed">Velg mellom rosa østersopp og blågrå østersopp.</p>
                 </div>
-                <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-umbi-dark border-4 border-umbi-bg z-10" />
+                <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-umbi-dark border-4 border-umbi-bg z-10" />
                 <div className="lg:w-[42%] w-full">
-                  <div className="aspect-[4/3] bg-umbi-beige rounded-3xl overflow-hidden relative shadow-sm">
-                    <Image src="https://picsum.photos/seed/umbi-pod-1/1200/900" alt="Umbi Pod" fill className="object-cover" referrerPolicy="no-referrer" />
+                  <div className="aspect-[4/3] bg-umbi-beige rounded-card overflow-hidden relative shadow-sm">
+                    <Image src="/brun.png" alt="Umbi Pod" fill className="object-cover" />
                   </div>
                 </div>
               </div>
 
               {/* Step 2 */}
-              <div className="relative flex flex-col lg:flex-row-reverse items-center lg:justify-between">
-                <div className="lg:w-[42%] text-center lg:text-left mb-12 lg:mb-0">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-umbi-dark/30 mb-4 block">02</span>
-                  <h3 className="text-3xl md:text-4xl mb-6">Åpne posen</h3>
-                  <p className="text-umbi-dark/60 leading-relaxed">Vent til du ser vekst inni posen, skjær så et kryss i plasten med en skarp kniv.</p>
+              <div className="relative flex flex-col lg:flex-row-reverse items-center lg:justify-between gap-6">
+                <div className="lg:w-[42%] text-center lg:text-left">
+                  <span className="text-label font-bold uppercase tracking-[0.3em] text-umbi-dark/30 mb-2 block">02</span>
+                  <h3 className="text-2xl md:text-3xl mb-3">Åpne posen</h3>
+                  <p className="text-sm text-umbi-dark/60 leading-relaxed">Vent til du ser vekst inni posen, skjær så et kryss i plasten med en skarp kniv.</p>
                 </div>
-                <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-umbi-dark border-4 border-umbi-bg z-10" />
+                <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-umbi-dark border-4 border-umbi-bg z-10" />
                 <div className="lg:w-[42%] w-full">
-                  <div className="aspect-[4/3] bg-umbi-beige rounded-3xl overflow-hidden relative shadow-sm">
-                    <Image src="https://picsum.photos/seed/umbi-open/1200/900" alt="Åpne posen" fill className="object-cover" referrerPolicy="no-referrer" />
+                  <div className="aspect-[4/3] bg-umbi-beige rounded-card overflow-hidden relative shadow-sm">
+                    <Image src="/svart.png" alt="Åpne posen" fill className="object-cover" />
                   </div>
                 </div>
               </div>
 
               {/* Step 3 */}
-              <div className="relative flex flex-col lg:flex-row items-center lg:justify-between">
-                <div className="lg:w-[42%] text-center lg:text-right mb-12 lg:mb-0">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-umbi-dark/30 mb-4 block">03</span>
-                  <h3 className="text-3xl md:text-4xl mb-6">Fyll vann og trykk start</h3>
-                  <p className="text-umbi-dark/60 leading-relaxed">Vanntanken holder én uke. Umbi tar seg av resten.</p>
+              <div className="relative flex flex-col lg:flex-row items-center lg:justify-between gap-6">
+                <div className="lg:w-[42%] text-center lg:text-right">
+                  <span className="text-label font-bold uppercase tracking-[0.3em] text-umbi-dark/30 mb-2 block">03</span>
+                  <h3 className="text-2xl md:text-3xl mb-3">Fyll vann og trykk start</h3>
+                  <p className="text-sm text-umbi-dark/60 leading-relaxed">Vanntanken holder én uke. Umbi tar seg av resten.</p>
                 </div>
-                <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-umbi-dark border-4 border-umbi-bg z-10" />
+                <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-umbi-dark border-4 border-umbi-bg z-10" />
                 <div className="lg:w-[42%] w-full">
-                  <div className="aspect-[4/3] bg-umbi-beige rounded-3xl overflow-hidden relative shadow-sm">
-                    <Image src="https://picsum.photos/seed/umbi-water/1200/900" alt="Fyll vann" fill className="object-cover" referrerPolicy="no-referrer" />
+                  <div className="aspect-[4/3] bg-umbi-beige rounded-card overflow-hidden relative shadow-sm">
+                    <Image src="/brun.png" alt="Fyll vann" fill className="object-cover" />
                   </div>
                 </div>
               </div>
 
               {/* Step 4 */}
-              <div className="relative flex flex-col lg:flex-row-reverse items-center lg:justify-between">
-                <div className="lg:w-[42%] text-center lg:text-left mb-12 lg:mb-0">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-umbi-dark/30 mb-4 block">04</span>
-                  <h3 className="text-3xl md:text-4xl mb-6">Høst og repeter</h3>
-                  <p className="text-umbi-dark/60 leading-relaxed">Etter litt over én uke er 400g fersk sopp klar. Hver pod gir to til tre høstinger. Vent én uke mellom hver runde.</p>
+              <div className="relative flex flex-col lg:flex-row-reverse items-center lg:justify-between gap-6">
+                <div className="lg:w-[42%] text-center lg:text-left">
+                  <span className="text-label font-bold uppercase tracking-[0.3em] text-umbi-dark/30 mb-2 block">04</span>
+                  <h3 className="text-2xl md:text-3xl mb-3">Høst og repeter</h3>
+                  <p className="text-sm text-umbi-dark/60 leading-relaxed">Etter litt over én uke er 400g fersk sopp klar. Hver pod gir to til tre høstinger.</p>
                 </div>
-                <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-umbi-dark border-4 border-umbi-bg z-10" />
+                <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-umbi-dark border-4 border-umbi-bg z-10" />
                 <div className="lg:w-[42%] w-full">
-                  <div className="aspect-[4/3] bg-umbi-beige rounded-3xl overflow-hidden relative shadow-sm">
-                    <Image src="https://picsum.photos/seed/umbi-harvest/1200/900" alt="Høst sopp" fill className="object-cover" referrerPolicy="no-referrer" />
+                  <div className="aspect-[4/3] bg-umbi-beige rounded-card overflow-hidden relative shadow-sm">
+                    <Image src="/svart.png" alt="Høst sopp" fill className="object-cover" />
                   </div>
                 </div>
               </div>
@@ -145,130 +146,151 @@ export default function HomePage() {
       </section>
 
       {/* Soppgaranti */}
-      <section className="py-24 md:py-40 px-6 md:px-12">
-        <div className="max-w-6xl mx-auto relative rounded-[48px] overflow-hidden min-h-[500px] flex items-center justify-center text-center p-12">
-          <Image 
-            src="/input_file_0.png" 
-            alt="Fersk sopp i panne" 
-            fill 
-            className="object-cover" 
-            referrerPolicy="no-referrer" 
-          />
-          <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" />
-          
-          <div className="relative z-10 max-w-2xl">
-            <h2 className="text-4xl md:text-6xl text-white mb-8">Soppgaranti</h2>
-            <p className="text-lg md:text-xl text-white/80 leading-relaxed mb-12">
-              Ikke fornøyd med resultatet? Du får en ny Umbi Pod i posten, ingen spørsmål.
-            </p>
-            <div className="w-16 h-px bg-white/40 mx-auto" />
+      <section data-nav-theme="light" className="section-padding">
+        <div className="content-container relative">
+
+          {/* Bilderamme — forskjøvet til venstre */}
+          <div className="relative rounded-feature overflow-hidden min-h-[520px] shadow-[0px_4px_22.8px_0px_rgba(0,0,0,0.25)] md:mr-[120px]">
+            <Image
+              src="/fersk sopp panne.png"
+              alt="Fersk sopp i panne"
+              fill
+              className="object-cover object-left"
+            />
           </div>
+
+          {/* Svevende glasspanel — henger langt utenfor høyre kant */}
+          <motion.div
+            animate={{ y: [0, -10, 0] }}
+            transition={{ duration: 4.5, ease: 'easeInOut', repeat: Infinity }}
+            className="absolute top-1/2 -translate-y-1/2 right-0 md:-right-20 w-[300px] md:w-[360px] z-20"
+          >
+            <div className="backdrop-blur-[20px] bg-[rgba(255,242,224,0.78)] border-[0.5px] border-white/60 rounded-panel p-8 flex flex-col gap-4 shadow-[0px_8px_40px_0px_rgba(0,0,0,0.15)]">
+              <span className="text-label font-sans font-bold uppercase tracking-[0.3em] text-umbi-dark/40 block">
+                Vårt løfte
+              </span>
+              <h2 className="font-serif italic text-headline text-umbi-dark leading-[0.92]">
+                Sopp&shy;garanti
+              </h2>
+              <div className="w-10 h-px bg-umbi-dark/20" />
+              <p className="font-serif text-body text-umbi-dark leading-relaxed">
+                Ikke fornøyd med resultatet? Du får en ny Umbi Pod i posten, ingen spørsmål.
+              </p>
+            </div>
+          </motion.div>
+
         </div>
       </section>
 
       {/* Mushroom Types */}
-      <section className="py-24 md:py-40 px-6 md:px-12 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
-            <div className="order-2 lg:order-1">
-              <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-umbi-dark/30 mb-6 block">Våre arter</span>
-              <h2 className="text-4xl md:text-6xl mb-10 leading-tight">Visste du at rosa østersopp ofte kalles skogens bacon?</h2>
-              <p className="text-lg text-umbi-dark/60 mb-12 leading-relaxed">
-                Umbi Uno er designet spesielt for rosa og blågrå østersopp, dyrket på substrat fra <a href="#" className="underline font-bold text-umbi-dark hover:opacity-70 transition-opacity">Hella Sopperi</a>.
-              </p>
-              
-              <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-8 sm:space-y-0 sm:space-x-12 mb-16">
-                <div className="relative w-40 h-16 grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all cursor-pointer">
-                   <div className="font-serif font-bold text-2xl tracking-tighter">Hella Sopperi</div>
+      <section data-nav-theme="dark" className="bg-umbi-dark flex flex-col lg:flex-row lg:items-stretch lg:justify-center gap-12 lg:gap-0">
+
+        {/* Venstre: tekst + CTA — justert med navbar */}
+        <div className="flex flex-col justify-center pl-6 md:pl-[var(--navbar-px-md)] pr-8 md:pr-16 flex-1 self-stretch py-16 md:py-20">
+          <div className="flex flex-col gap-12">
+            {/* Logo + tittel side om side */}
+            <div className="flex items-start gap-5">
+              <div className="relative shrink-0 w-[120px] self-stretch">
+                <Image
+                  src="/hella sopperi logo beige.png"
+                  alt="Hella Sopperi"
+                  fill
+                  className="object-contain object-left"
+                />
+              </div>
+              <h2 className="font-serif text-umbi-beige leading-snug" style={{fontSize: 'clamp(1.875rem, 2.5vw, 2.5rem)'}}>
+                Substrat fra naturen,<br />laget med kjærlighet
+              </h2>
+            </div>
+            {/* Brødtekst + CTA */}
+            <div className="flex flex-col gap-12">
+              <div className="flex flex-col gap-4 max-w-[600px]">
+                <p className="font-sans text-body text-umbi-beige/50 leading-relaxed">
+                  Alt vårt substrat er produsert av Hella Sopperi — norskprodusert, kortreist og trygt for deg og familien din. Substratet er laget av pasteurisert halm og næringsstoffer som gir soppmyceliet ideelle vekstforhold.
+                </p>
+                <p className="font-sans text-body text-umbi-beige/50 leading-relaxed">
+                  Hella Sopperi er et av Norges ledende soppgartneri, med fokus på bærekraft og kortreiste råvarer. Hver Umbi Pod er ferdig inokulert og klar til å vokse — direkte fra esken og inn i enheten din.
+                </p>
+              </div>
+              <a
+                href="https://www.hellasopperi.no/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block self-start px-6 py-3 bg-umbi-beige text-umbi-dark rounded-ui font-serif text-ui border-[0.5px] border-umbi-beige/80 hover:opacity-90 transition-opacity"
+              >
+                Gå til Hella Sopperi
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* Høyre: sopp-kort — flush mot høyre kant */}
+        <div className="grid grid-cols-2 grid-rows-1 gap-3 md:gap-4 lg:w-[49.5%] shrink-0 pr-6 md:pr-[var(--navbar-px-md)] py-16 md:py-20 self-stretch">
+          {[
+            {
+              name: 'Rosa østersopp',
+              desc: 'Skogens bacon — mild, nøtteaktig og delikat.',
+              qualities: ['Mild og nøtteaktig', 'Perfekt til pasta og risotto', 'Sprø tekstur i pannen'],
+              src: '/rosa sopp display.png',
+              bg: 'linear-gradient(160deg, #EDD8CF 0%, #F5EAE4 100%)',
+              delay: 0,
+            },
+            {
+              name: 'Blågrå østersopp',
+              desc: 'Kraftig umami med dybde og karakter.',
+              qualities: ['Intens umami-smak', 'Ideell til kjøttretter og wok', 'Beholder formen ved høy varme'],
+              src: '/blågrå sopp display.png',
+              bg: 'linear-gradient(160deg, #CDD6D8 0%, #E4ECED 100%)',
+              delay: 0.1,
+            },
+          ].map((mushroom) => (
+            <motion.div
+              key={mushroom.name}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-60px' }}
+              transition={{ duration: 0.7, ease: 'easeOut', delay: mushroom.delay }}
+              className="flex flex-col rounded-card border-[0.5px] border-umbi-dark/10 overflow-hidden shadow-[0px_4px_22.8px_0px_rgba(0,0,0,0.18)] h-full"
+              style={{ background: mushroom.bg }}
+            >
+              {/* Bilde — flush mot toppen, vokser for å presse tekst til bunn */}
+              <div className="relative flex-1 overflow-hidden min-h-[200px]">
+                <Image
+                  src={mushroom.src}
+                  alt={mushroom.name}
+                  fill
+                  className="object-cover object-top transition-transform duration-700 hover:scale-[1.04]"
+                />
+              </div>
+
+              {/* Tekstblokk — fast høyde, lik på begge kort */}
+              <div className="px-5 py-5 flex flex-col gap-3 bg-umbi-bg shrink-0">
+                <div>
+                  <span className="font-serif text-body-lg text-umbi-dark leading-none block">
+                    {mushroom.name}
+                  </span>
+                  <span className="font-serif italic text-caption text-umbi-dark/50 leading-snug block mt-1">
+                    {mushroom.desc}
+                  </span>
                 </div>
-                <Link 
-                  href="/design" 
-                  className="inline-flex items-center space-x-4 bg-umbi-dark text-white px-10 py-5 rounded-full font-bold uppercase tracking-[0.2em] text-[10px] hover:translate-x-2 transition-transform shadow-xl"
-                >
-                  <span>Bestill Umbi Pod</span>
-                  <ChevronRight size={14} />
-                </Link>
+                <div className="w-6 h-px bg-umbi-dark/15" />
+                <ul className="flex flex-col gap-1.5">
+                  {mushroom.qualities.map((q) => (
+                    <li key={q} className="flex items-center gap-2">
+                      <span className="w-1 h-1 rounded-full bg-umbi-dark/25 shrink-0" />
+                      <span className="font-sans text-caption text-umbi-dark/60">{q}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
-            </div>
-            
-            <div className="order-1 lg:order-2 grid grid-cols-2 gap-6">
-              <div className="aspect-[3/4] relative rounded-3xl overflow-hidden shadow-2xl transform -rotate-2">
-                <Image src="https://picsum.photos/seed/pink-mush/800/1066" alt="Rosa østersopp" fill className="object-cover" referrerPolicy="no-referrer" />
-                <div className="absolute bottom-6 left-6 text-white text-[9px] font-bold uppercase tracking-[0.2em] bg-black/30 backdrop-blur-md px-4 py-2 rounded-full">Rosa</div>
-              </div>
-              <div className="aspect-[3/4] relative rounded-3xl overflow-hidden shadow-2xl transform rotate-2 mt-12">
-                <Image src="https://picsum.photos/seed/blue-mush/800/1066" alt="Blågrå østersopp" fill className="object-cover" referrerPolicy="no-referrer" />
-                <div className="absolute bottom-6 left-6 text-white text-[9px] font-bold uppercase tracking-[0.2em] bg-black/30 backdrop-blur-md px-4 py-2 rounded-full">Blågrå</div>
-              </div>
-            </div>
-          </div>
+            </motion.div>
+          ))}
         </div>
+
       </section>
 
-      {/* Technical Specs */}
-      <section className="py-24 md:py-40 px-6 md:px-12 bg-umbi-dark text-umbi-beige">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-24 md:mb-32">
-            <h2 className="text-4xl md:text-7xl mb-6">Tekniske spesifikasjoner</h2>
-            <p className="text-umbi-beige/40 text-[10px] font-bold uppercase tracking-[0.4em]">Umbi Uno v1.0</p>
-          </div>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-16 md:gap-24">
-            <div className="space-y-6 group">
-              <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center group-hover:bg-white/10 transition-colors">
-                <Droplets className="opacity-50" size={24} />
-              </div>
-              <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] opacity-40">Vanntank</h3>
-              <p className="text-3xl font-serif">150ml</p>
-              <p className="text-sm opacity-40 leading-relaxed">Holder en uke ved normal drift.</p>
-            </div>
-            
-            <div className="space-y-6 group">
-              <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center group-hover:bg-white/10 transition-colors">
-                <Battery className="opacity-50" size={24} />
-              </div>
-              <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] opacity-40">Batteritid</h3>
-              <p className="text-3xl font-serif">5 dager</p>
-              <p className="text-sm opacity-40 leading-relaxed">Integrert Li-ion batteri.</p>
-            </div>
-            
-            <div className="space-y-6 group">
-              <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center group-hover:bg-white/10 transition-colors">
-                <Zap className="opacity-50" size={24} />
-              </div>
-              <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] opacity-40">Lading</h3>
-              <p className="text-3xl font-serif">USB-C</p>
-              <p className="text-sm opacity-40 leading-relaxed">Hurtiglading støttet.</p>
-            </div>
-            
-            <div className="space-y-6 group">
-              <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center group-hover:bg-white/10 transition-colors">
-                <Wind className="opacity-50" size={24} />
-              </div>
-              <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] opacity-40">Teknologi</h3>
-              <p className="text-3xl font-serif">Supersonic</p>
-              <p className="text-sm opacity-40 leading-relaxed">Presis fuktighetskontroll.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Kitchen Climate */}
-      <section className="py-24 md:py-48 px-6 md:px-12 bg-umbi-bg relative overflow-hidden">
-        <div className="absolute -right-24 -top-24 w-96 h-96 bg-umbi-beige rounded-full blur-3xl opacity-50" />
-        <div className="absolute -left-24 -bottom-24 w-96 h-96 bg-umbi-beige rounded-full blur-3xl opacity-50" />
-        
-        <div className="max-w-4xl mx-auto text-center relative z-10">
-          <h2 className="text-4xl md:text-7xl mb-12">Kjøkkenklima</h2>
-          <p className="text-2xl md:text-4xl mb-12 font-serif italic text-umbi-dark/80 leading-tight">
-            &quot;Visste du at Umbi Uno regulerer luftfuktigheten i kjøkkenet ditt mens den dyrker sopp?&quot;
-          </p>
-          <div className="w-12 h-px bg-umbi-dark/20 mx-auto mb-12" />
-          <p className="text-lg text-umbi-dark/60 max-w-2xl mx-auto leading-relaxed">
-            Tørr luft fra steking og ovnsbruk er en av de største fiendene til inneklimaet. Umbi Uno balanserer dette naturlig mens myceliet jobber, slik at kjøkkenet blir et bedre sted å lage mat.
-          </p>
-        </div>
-      </section>
+      {/* Technical Specs — hidden for now */}
+      {/* Kitchen Climate — hidden for now */}
 
       <Footer />
     </main>

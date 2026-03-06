@@ -18,14 +18,14 @@ export default function ReisePage() {
     <main className="flex-grow bg-umbi-bg">
       <Navbar />
       
-      <section className="pt-32 md:pt-48 pb-24 md:pb-40 px-6 md:px-12">
-        <div className="max-w-7xl mx-auto">
+      <section data-nav-theme="light" className="pt-32 md:pt-48 pb-24 md:pb-40 px-[var(--section-px)] md:px-[var(--section-px-md)]">
+        <div className="content-container-wide">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-umbi-dark/30 mb-6 block">Vår historie</span>
+            <span className="text-label font-bold uppercase tracking-[0.4em] text-umbi-dark/30 mb-6 block">Vår historie</span>
             <h1 className="text-5xl md:text-8xl mb-20 md:mb-32 tracking-tight">Vår reise</h1>
           </motion.div>
           
@@ -49,7 +49,7 @@ export default function ReisePage() {
             </div>
             
             <div className="space-y-16">
-              <div className="aspect-video relative rounded-[40px] overflow-hidden shadow-2xl">
+              <div className="aspect-video relative rounded-large overflow-hidden shadow-2xl">
                 <Image 
                   src="https://picsum.photos/seed/umbi-team-work/1200/800" 
                   alt="Umbi teamet i arbeid" 
@@ -59,13 +59,13 @@ export default function ReisePage() {
                 />
               </div>
               
-              <div className="bg-white p-10 md:p-16 rounded-[40px] shadow-sm">
-                <h2 className="text-[10px] uppercase tracking-[0.3em] font-bold mb-12 opacity-30">Folka bak Umbi</h2>
+              <div className="bg-white p-10 md:p-16 rounded-large shadow-sm">
+                <h2 className="text-label font-sans uppercase tracking-[0.3em] font-bold mb-12 opacity-30">Folka bak Umbi</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-12">
                   {team.map((member) => (
                     <div key={member.name} className="group">
                       <h3 className="text-xl mb-2 group-hover:text-umbi-dark transition-colors">{member.name}</h3>
-                      <p className="text-[10px] text-umbi-dark/40 uppercase tracking-widest font-bold">{member.role}</p>
+                      <p className="text-label text-umbi-dark/40 uppercase tracking-widest font-bold">{member.role}</p>
                     </div>
                   ))}
                 </div>

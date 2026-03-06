@@ -3,188 +3,318 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
 import { motion, AnimatePresence } from 'motion/react';
-import { Check, Info } from 'lucide-react';
+
+type Color = 'Svart' | 'Brun' | 'Sølv';
+type Pod   = 'Rosa' | 'Blågrå';
+
+const colorImages: Record<Color, string> = {
+  Svart: '/svart.png',
+  Brun:  '/brun.png',
+  Sølv:  '/svart.png',
+};
+
+const colorStyles: Record<Color, React.CSSProperties> = {
+  Brun:  { backgroundColor: 'var(--color-umbi-brown)' },
+  Svart: { backgroundColor: 'var(--color-umbi-black)' },
+  Sølv:  { background: 'linear-gradient(144.9deg, #9fa6ae 7%, #d6d5d1 34%, #bdb2af 68%, #dcc6bf 94%)' },
+};
+
+const pods: { name: Pod; label: string; desc: string; src: string }[] = [
+  { name: 'Rosa',   label: 'Rosa østersopp',   desc: 'Mild og nøtteaktig, perfekt til pasta og risotto.',  src: '/rosa sopp.png'   },
+  { name: 'Blågrå', label: 'Blågrå østersopp', desc: 'Kraftig umami-smak, ideell til kjøttretter og wok.', src: '/blågrå sopp.png' },
+];
+
+const accessories = [
+  { name: 'Veggfeste', price: 350, note: 'Flis eller trevegg'    },
+  { name: 'Takfeste',  price: 400, note: 'Minimalistisk oppheng' },
+];
 
 export default function DesignPage() {
-  const [color, setColor] = useState<'Svart' | 'Brun'>('Svart');
-  const [accessories, setAccessories] = useState<string[]>([]);
-  
-  const toggleAccessory = (acc: string) => {
-    setAccessories(prev => 
-      prev.includes(acc) ? prev.filter(a => a !== acc) : [...prev, acc]
-    );
+  const [color, setColor]       = useState<Color>('Svart');
+  const [pod, setPod]           = useState<Pod>('Rosa');
+  const [selected, setSelected] = useState<string[]>([]);
+  const [email, setEmail]       = useState('');
+  const [status, setStatus]     = useState<'idle' | 'sending' | 'done' | 'error'>('idle');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus('sending');
+    try {
+      const res = await fetch('https://formspree.io/f/xvzbjply', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ email, farge: color, pod, tillegg: selected.join(', '), totalpris: total }),
+      });
+      setStatus(res.ok ? 'done' : 'error');
+    } catch {
+      setStatus('error');
+    }
   };
+
+  const toggle = (name: string) =>
+    setSelected(prev =>
+      prev.includes(name) ? prev.filter(a => a !== name) : [...prev, name]
+    );
 
   const basePrice = 2300;
-  const accPrices: Record<string, number> = {
-    'Veggfeste': 350,
-    'Takfeste': 400
-  };
-
-  const totalPrice = basePrice + accessories.reduce((sum, acc) => sum + (accPrices[acc] || 0), 0);
+  const total = basePrice + selected.reduce(
+    (s, a) => s + (accessories.find(x => x.name === a)?.price ?? 0), 0
+  );
 
   return (
-    <main className="flex-grow bg-umbi-bg">
+    <main data-nav-theme="light" className="bg-umbi-beige min-h-screen">
       <Navbar />
-      
-      <section className="pt-32 md:pt-48 pb-24 md:pb-40 px-6 md:px-12">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-32 items-start">
-            
-            {/* Preview Column */}
-            <div className="lg:sticky lg:top-40 space-y-8">
-              <div className="aspect-[4/5] bg-umbi-beige rounded-[48px] overflow-hidden relative shadow-2xl group">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={color}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="absolute inset-0"
-                  >
-                    <Image 
-                      src="/input_file_2.png" 
-                      alt={`Umbi Uno i ${color}`} 
-                      fill 
-                      className={`object-cover transition-all duration-700 ${color === 'Brun' ? 'sepia-[0.3] saturate-[1.2]' : 'grayscale-[0.2]'}`}
-                      referrerPolicy="no-referrer"
-                    />
-                  </motion.div>
-                </AnimatePresence>
-                
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-                
-                {/* Accessory Indicators */}
-                <div className="absolute top-8 left-8 flex flex-col space-y-3">
-                  {accessories.map(acc => (
-                    <motion.div 
-                      initial={{ x: -20, opacity: 0 }}
-                      animate={{ x: 0, opacity: 1 }}
-                      key={acc}
-                      className="bg-white/90 backdrop-blur-md px-4 py-2 rounded-full text-[9px] font-bold uppercase tracking-widest shadow-sm flex items-center space-x-2"
-                    >
-                      <Check size={10} />
-                      <span>{acc}</span>
-                    </motion.div>
-                  ))}
-                </div>
 
-                <div className="absolute bottom-8 left-8 right-8 flex justify-between items-end">
-                  <div className="text-white">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] opacity-60 mb-2">Valgt modell</p>
-                    <h2 className="text-3xl font-serif">Umbi Uno {color}</h2>
-                  </div>
-                  <div className="bg-umbi-beige text-umbi-dark px-6 py-3 rounded-2xl font-serif text-xl shadow-lg">
-                    {totalPrice} kr
-                  </div>
-                </div>
-              </div>
-              
-              <div className="flex items-center space-x-4 p-6 bg-umbi-dark/5 rounded-3xl text-sm text-umbi-dark/60 leading-relaxed">
-                <Info size={20} className="shrink-0 opacity-40" />
-                <p>Hver Umbi Uno håndlages i Trondheim med fokus på bærekraft og lang levetid.</p>
-              </div>
-            </div>
-            
-            {/* Configurator Column */}
-            <div className="space-y-16 py-8">
-              <header>
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-umbi-dark/30 mb-4 block">Konfigurator</span>
-                <h1 className="text-5xl md:text-7xl mb-6">Design din Umbi Uno</h1>
-                <p className="text-lg text-umbi-dark/60 leading-relaxed max-w-lg">
-                  Skreddersy din Umbi slik at den passer perfekt inn i ditt kjøkkenmiljø. Velg mellom våre signaturfarger og praktisk tilleggsutstyr.
-                </p>
-              </header>
-              
-              {/* Color Selection */}
-              <div className="space-y-8">
-                <div className="flex justify-between items-end">
-                  <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] opacity-40">Velg farge</h3>
-                  <span className="text-sm font-serif italic text-umbi-dark/40">{color}</span>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  {(['Svart', 'Brun'] as const).map((c) => (
-                    <button
-                      key={c}
-                      onClick={() => setColor(c)}
-                      className={`relative group p-8 rounded-[32px] border-2 transition-all duration-500 text-left overflow-hidden ${
-                        color === c ? 'border-umbi-dark bg-white shadow-xl' : 'border-umbi-dark/5 hover:border-umbi-dark/20 bg-transparent'
-                      }`}
-                    >
-                      <div className={`w-12 h-12 rounded-2xl mb-6 shadow-inner transition-transform duration-500 group-hover:scale-110 ${c === 'Svart' ? 'bg-zinc-900' : 'bg-[#5D4037]'}`} />
-                      <span className="text-sm font-bold uppercase tracking-[0.2em] block mb-1">{c}</span>
-                      <span className="text-[10px] text-umbi-dark/40 uppercase tracking-widest">Inkludert</span>
-                      
-                      {color === c && (
-                        <motion.div layoutId="activeColor" className="absolute top-4 right-4 text-umbi-dark">
-                          <Check size={20} />
-                        </motion.div>
-                      )}
-                    </button>
-                  ))}
-                </div>
-              </div>
-              
-              {/* Accessories */}
-              <div className="space-y-8">
-                <div className="flex justify-between items-end">
-                  <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] opacity-40">Tilbehør</h3>
-                  <span className="text-sm font-serif italic text-umbi-dark/40">{accessories.length} valgt</span>
-                </div>
-                <div className="space-y-4">
-                  {[
-                    { name: 'Veggfeste', price: 350, desc: 'For montering på flis eller trevegg.' },
-                    { name: 'Takfeste', price: 400, desc: 'Minimalistisk oppheng fra taket.' }
-                  ].map((acc) => (
-                    <button
-                      key={acc.name}
-                      onClick={() => toggleAccessory(acc.name)}
-                      className={`w-full p-8 rounded-[32px] border-2 transition-all duration-500 text-left flex items-center justify-between group ${
-                        accessories.includes(acc.name) ? 'border-umbi-dark bg-white shadow-xl' : 'border-umbi-dark/5 hover:border-umbi-dark/20 bg-transparent'
-                      }`}
-                    >
-                      <div className="flex items-center space-x-6">
-                        <div className={`w-8 h-8 rounded-xl border-2 flex items-center justify-center transition-colors duration-500 ${accessories.includes(acc.name) ? 'bg-umbi-dark border-umbi-dark' : 'border-umbi-dark/10 group-hover:border-umbi-dark/30'}`}>
-                          {accessories.includes(acc.name) && <Check size={16} className="text-white" />}
-                        </div>
-                        <div>
-                          <span className="font-bold uppercase tracking-[0.2em] text-sm block mb-1">{acc.name}</span>
-                          <span className="text-[10px] text-umbi-dark/40 uppercase tracking-widest">{acc.desc}</span>
-                        </div>
-                      </div>
-                      <span className="font-serif text-lg">+{acc.price} kr</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-              
-              {/* Summary & CTA */}
-              <div className="pt-12 border-t border-umbi-dark/10 space-y-8">
-                <div className="flex justify-between items-baseline">
-                  <span className="text-2xl font-serif">Totalpris</span>
-                  <div className="text-right">
-                    <span className="text-4xl font-serif">{totalPrice} kr</span>
-                    <p className="text-[10px] text-umbi-dark/40 uppercase tracking-widest mt-2">Inkl. MVA og frakt i Norge</p>
-                  </div>
-                </div>
-                
-                <button className="w-full py-6 bg-umbi-dark text-white rounded-full font-bold uppercase tracking-[0.3em] text-[11px] hover:scale-[1.02] active:scale-[0.98] transition-all shadow-2xl">
-                  Sett meg på en uforpliktende venteliste
-                </button>
-                
-                <p className="text-center text-[9px] text-umbi-dark/30 uppercase tracking-[0.2em] leading-relaxed">
-                  Ved å sette deg på venteliste får du prioritet når neste produksjonsserie er klar. Ingen betaling kreves før din Umbi er klar for utsendelse.
-                </p>
-              </div>
-            </div>
+      <div className="flex mt-[var(--navbar-height)] pl-6 md:pl-[var(--navbar-px-md)]">
+
+        {/* ── Left: product image ── */}
+        <div className="flex-1 py-6 pr-6 md:pr-16 sticky top-[var(--navbar-height)] h-[calc(100vh-var(--navbar-height))]">
+          <div className="relative h-full rounded-large overflow-hidden shadow-[0px_4px_22.8px_0px_rgba(0,0,0,0.25)]">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={color}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.6, ease: 'easeInOut' }}
+                className="absolute inset-0"
+              >
+                <Image
+                  src={colorImages[color]}
+                  alt={`Umbi Uno ${color}`}
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              </motion.div>
+            </AnimatePresence>
           </div>
         </div>
-      </section>
-      
-      <Footer />
+
+        {/* ── Right: configurator panel ── */}
+        <div className="min-w-[460px] w-[500px] shrink-0 flex flex-col min-h-[calc(100vh-var(--navbar-height))] py-8 pr-6 md:pr-[var(--navbar-px-md)] overflow-y-auto">
+
+          {/* Midtdel: sentrert vertikalt i tilgjengelig plass */}
+          <div className="flex-1 flex flex-col justify-center gap-5">
+
+          {/* 1 ── Logo · Undertekst · Fargevalg */}
+          <div className="flex flex-col items-center gap-4 pb-6">
+
+            <div className="flex flex-col items-center gap-1.5">
+              <div className="relative w-[180px] h-[31px]">
+                <Image
+                  src="/Umbi Uno logo mørk.png"
+                  alt="Umbi Uno"
+                  fill
+                  className="object-contain"
+                />
+              </div>
+              <p className="font-serif text-caption text-umbi-dark/40 text-center">
+                Design din enhet
+              </p>
+            </div>
+
+            <div className="flex items-center gap-3 mt-2">
+              {(['Brun', 'Svart', 'Sølv'] as Color[]).map(c => (
+                <button
+                  key={c}
+                  onClick={() => setColor(c)}
+                  title={c}
+                  className="relative w-8 h-8 rounded-full focus:outline-none transition-transform duration-300 hover:scale-110"
+                  style={colorStyles[c]}
+                >
+                  {color === c && (
+                    <motion.span
+                      layoutId="colorRing"
+                      className="absolute inset-0 rounded-full ring-[1.5px] ring-offset-[3px] ring-umbi-dark"
+                      transition={{ duration: 0.2 }}
+                    />
+                  )}
+                </button>
+              ))}
+            </div>
+
+          </div>
+
+          {/* 2 ── Umbi Pod */}
+          <div className="flex flex-col gap-3 pb-6">
+
+            <span className="text-label font-sans font-bold uppercase tracking-[0.3em] text-umbi-dark/30 text-center block">
+              Velg inkludert Umbi Pod
+            </span>
+
+            <div className="flex gap-3">
+              {pods.map(p => {
+                const on = pod === p.name;
+                return (
+                  <button
+                    key={p.name}
+                    onClick={() => setPod(p.name)}
+                    className={`flex-1 flex flex-col rounded-card overflow-hidden border-[0.5px] transition-all duration-300 ${
+                      on
+                        ? 'border-umbi-dark/25 shadow-sm'
+                        : 'border-umbi-dark/10 hover:border-umbi-dark/20'
+                    }`}
+                  >
+                    {/* Image */}
+                    <div className="relative h-[130px] overflow-hidden">
+                      <Image
+                        src={p.src}
+                        alt={p.label}
+                        fill
+                        className="object-cover transition-transform duration-500 hover:scale-105"
+                      />
+                      {on && <div className="absolute inset-0 bg-umbi-dark/5" />}
+                    </div>
+
+                    {/* Label block */}
+                    <div className={`px-3 py-3 flex flex-col gap-1 transition-colors duration-300 items-start ${
+                      on ? 'bg-umbi-bg' : 'bg-umbi-bg/40'
+                    }`}>
+                      <span className="font-serif text-caption text-umbi-dark leading-none text-left">
+                        {p.label}
+                      </span>
+                      <span className="font-serif italic text-caption text-umbi-dark/40 leading-snug text-left">
+                        {p.desc}
+                      </span>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+
+          </div>
+
+          {/* 3 ── Tillegg */}
+          <div className="flex flex-col gap-3 pb-6">
+
+            <span className="text-label font-sans font-bold uppercase tracking-[0.3em] text-umbi-dark/30 text-center block">
+              Tillegg
+            </span>
+
+            <div className="flex flex-col gap-2">
+              {accessories.map(acc => {
+                const on = selected.includes(acc.name);
+                return (
+                  <button
+                    key={acc.name}
+                    onClick={() => toggle(acc.name)}
+                    className={`flex items-center justify-between px-4 py-3 rounded-card border-[0.5px] transition-all duration-300 text-left ${
+                      on
+                        ? 'bg-umbi-bg border-umbi-dark/20'
+                        : 'bg-transparent border-umbi-dark/10 hover:bg-umbi-bg/50 hover:border-umbi-dark/15'
+                    }`}
+                  >
+                    <p className="font-serif text-caption text-umbi-dark leading-none">
+                      {acc.name}
+                    </p>
+                    <div className="flex items-center gap-2.5 shrink-0 ml-3">
+                      <span className={`font-serif text-caption transition-colors duration-300 ${on ? 'text-umbi-dark' : 'text-umbi-dark/40'}`}>
+                        +{acc.price} kr
+                      </span>
+                      <div className={`w-[14px] h-[14px] rounded-[3px] border-[0.5px] flex items-center justify-center transition-all duration-300 ${
+                        on ? 'bg-umbi-dark border-umbi-dark' : 'border-umbi-dark/20'
+                      }`}>
+                        {on && (
+                          <motion.svg
+                            initial={{ opacity: 0, scale: 0.5 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.15 }}
+                            width="8" height="6"
+                            viewBox="0 0 8 6"
+                            fill="none"
+                          >
+                            <path
+                              d="M1 3L3 5L7 1"
+                              stroke="var(--color-umbi-beige)"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </motion.svg>
+                        )}
+                      </div>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+
+          </div>
+
+          </div>{/* slutt midtdel */}
+
+          {/* 4 ── Totalpris + CTA — festet til bunn */}
+          <div className="flex flex-col gap-3">
+            <div className="w-full h-px bg-umbi-dark/10" />
+
+            <div className="flex justify-between items-baseline">
+              <span className="font-serif text-caption text-umbi-dark/40">
+                Totalpris
+              </span>
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={total}
+                  initial={{ opacity: 0, y: -5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 5 }}
+                  transition={{ duration: 0.18 }}
+                  className="font-serif text-panel-title text-umbi-dark"
+                >
+                  {total} kr
+                </motion.span>
+              </AnimatePresence>
+            </div>
+
+            <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+              <p className="font-serif text-caption text-umbi-dark/40 leading-relaxed">
+                Meld deg på vår helt uforpliktende venteliste.
+              </p>
+
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                placeholder="din@epost.no"
+                disabled={status === 'done'}
+                className="w-full h-[44px] px-4 bg-umbi-bg/60 border-[0.5px] border-umbi-dark/20 rounded-ui font-serif text-ui text-umbi-dark placeholder:text-umbi-dark/30 focus:outline-none focus:border-umbi-dark/50 transition-colors duration-300 disabled:opacity-40"
+              />
+
+              <AnimatePresence mode="wait">
+                {status === 'done' ? (
+                  <motion.p
+                    key="done"
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="text-center font-serif text-caption text-umbi-dark/60 py-2"
+                  >
+                    Du er på listen — vi gir beskjed!
+                  </motion.p>
+                ) : (
+                  <motion.button
+                    key="btn"
+                    type="submit"
+                    disabled={status === 'sending'}
+                    className="w-full h-[44px] bg-umbi-dark text-umbi-beige rounded-ui font-serif text-ui border-[0.5px] border-umbi-dark hover:opacity-90 transition-opacity disabled:opacity-50"
+                  >
+                    {status === 'sending' ? 'Sender…' : 'Sett meg på venteliste'}
+                  </motion.button>
+                )}
+              </AnimatePresence>
+
+              {status === 'error' && (
+                <p className="text-center font-sans text-micro text-red-500 uppercase tracking-[0.2em]">
+                  Noe gikk galt — prøv igjen
+                </p>
+              )}
+            </form>
+
+          </div>
+
+        </div>
+      </div>
     </main>
   );
 }
