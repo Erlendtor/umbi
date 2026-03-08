@@ -51,17 +51,17 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="flex flex-row gap-[11px]"
+            className="flex flex-col sm:flex-row gap-3 sm:gap-[11px] w-full sm:w-auto mt-2"
           >
             <Link
               href="/design"
-              className="h-[44px] px-[21px] bg-umbi-beige backdrop-blur-sm border-[0.5px] border-white/80 rounded-ui font-serif text-ui text-umbi-dark flex items-center hover:opacity-90 transition-opacity whitespace-nowrap"
+              className="h-[44px] px-[21px] bg-umbi-beige backdrop-blur-sm border-[0.5px] border-white/80 rounded-ui font-serif text-ui text-umbi-dark flex items-center justify-center hover:opacity-90 transition-opacity whitespace-nowrap cursor-pointer"
             >
               Design din Umbi Uno
             </Link>
             <Link
               href="#slik-fungerer-det"
-              className="h-[44px] px-[21px] bg-white/20 backdrop-blur-sm rounded-ui font-serif text-ui text-umbi-beige flex items-center hover:bg-white/30 transition-colors whitespace-nowrap"
+              className="h-[44px] px-[21px] bg-white/20 backdrop-blur-sm border-[0.5px] border-white/20 rounded-ui font-serif text-ui text-umbi-beige flex items-center justify-center hover:bg-white/30 transition-colors whitespace-nowrap cursor-pointer"
             >
               Om produktet
             </Link>
@@ -73,7 +73,7 @@ export default function HomePage() {
       <section data-nav-theme="light" id="slik-fungerer-det" className="section-padding-sm bg-umbi-bg">
         <div className="content-container">
           <div className="text-center mb-10 md:mb-14">
-            <h2 className="text-3xl md:text-5xl mb-4">Slik fungerer det</h2>
+            <h2 className="font-serif text-headline text-umbi-dark mb-4">Slik fungerer det</h2>
             <div className="w-16 h-px bg-umbi-dark/20 mx-auto" />
           </div>
 
@@ -84,9 +84,9 @@ export default function HomePage() {
               {/* Step 1 */}
               <div className="relative flex flex-col lg:flex-row items-center lg:justify-between gap-6">
                 <div className="lg:w-[42%] text-center lg:text-right">
-                  <span className="text-label font-bold uppercase tracking-[0.3em] text-umbi-dark/30 mb-2 block">01</span>
-                  <h3 className="text-2xl md:text-3xl mb-3">Sett inn en Umbi Pod</h3>
-                  <p className="text-sm text-umbi-dark/60 leading-relaxed">Velg mellom rosa østersopp og blågrå østersopp.</p>
+                  <span className="font-sans text-label font-bold uppercase tracking-[0.3em] text-umbi-dark/30 mb-2 block">01</span>
+                  <h3 className="font-serif text-section-title text-umbi-dark mb-3">Sett inn en Umbi Pod</h3>
+                  <p className="font-serif text-body text-umbi-dark/60 leading-relaxed">Velg mellom rosa østersopp og blågrå østersopp.</p>
                 </div>
                 <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-umbi-dark border-4 border-umbi-bg z-10" />
                 <div className="lg:w-[42%] w-full">
@@ -99,9 +99,9 @@ export default function HomePage() {
               {/* Step 2 */}
               <div className="relative flex flex-col lg:flex-row-reverse items-center lg:justify-between gap-6">
                 <div className="lg:w-[42%] text-center lg:text-left">
-                  <span className="text-label font-bold uppercase tracking-[0.3em] text-umbi-dark/30 mb-2 block">02</span>
-                  <h3 className="text-2xl md:text-3xl mb-3">Åpne posen</h3>
-                  <p className="text-sm text-umbi-dark/60 leading-relaxed">Vent til du ser vekst inni posen, skjær så et kryss i plasten med en skarp kniv.</p>
+                  <span className="font-sans text-label font-bold uppercase tracking-[0.3em] text-umbi-dark/30 mb-2 block">02</span>
+                  <h3 className="font-serif text-section-title text-umbi-dark mb-3">Åpne posen</h3>
+                  <p className="font-serif text-body text-umbi-dark/60 leading-relaxed">Vent til du ser vekst inni posen, skjær så et kryss i plasten med en skarp kniv.</p>
                 </div>
                 <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-umbi-dark border-4 border-umbi-bg z-10" />
                 <div className="lg:w-[42%] w-full">
@@ -114,9 +114,9 @@ export default function HomePage() {
               {/* Step 3 */}
               <div className="relative flex flex-col lg:flex-row items-center lg:justify-between gap-6">
                 <div className="lg:w-[42%] text-center lg:text-right">
-                  <span className="text-label font-bold uppercase tracking-[0.3em] text-umbi-dark/30 mb-2 block">03</span>
-                  <h3 className="text-2xl md:text-3xl mb-3">Fyll vann og trykk start</h3>
-                  <p className="text-sm text-umbi-dark/60 leading-relaxed">Vanntanken holder én uke. Umbi tar seg av resten.</p>
+                  <span className="font-sans text-label font-bold uppercase tracking-[0.3em] text-umbi-dark/30 mb-2 block">03</span>
+                  <h3 className="font-serif text-section-title text-umbi-dark mb-3">Fyll vann og trykk start</h3>
+                  <p className="font-serif text-body text-umbi-dark/60 leading-relaxed">Vanntanken holder én uke. Umbi tar seg av resten.</p>
                 </div>
                 <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-umbi-dark border-4 border-umbi-bg z-10" />
                 <div className="lg:w-[42%] w-full">
@@ -129,9 +129,9 @@ export default function HomePage() {
               {/* Step 4 */}
               <div className="relative flex flex-col lg:flex-row-reverse items-center lg:justify-between gap-6">
                 <div className="lg:w-[42%] text-center lg:text-left">
-                  <span className="text-label font-bold uppercase tracking-[0.3em] text-umbi-dark/30 mb-2 block">04</span>
-                  <h3 className="text-2xl md:text-3xl mb-3">Høst og repeter</h3>
-                  <p className="text-sm text-umbi-dark/60 leading-relaxed">Etter litt over én uke er 400g fersk sopp klar. Hver pod gir to til tre høstinger.</p>
+                  <span className="font-sans text-label font-bold uppercase tracking-[0.3em] text-umbi-dark/30 mb-2 block">04</span>
+                  <h3 className="font-serif text-section-title text-umbi-dark mb-3">Høst og repeter</h3>
+                  <p className="font-serif text-body text-umbi-dark/60 leading-relaxed">Etter litt over én uke er 400g fersk sopp klar. Hver pod gir to til tre høstinger.</p>
                 </div>
                 <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-umbi-dark border-4 border-umbi-bg z-10" />
                 <div className="lg:w-[42%] w-full">
@@ -189,26 +189,26 @@ export default function HomePage() {
         <div className="flex flex-col justify-center pl-6 md:pl-[var(--navbar-px-md)] pr-8 md:pr-16 flex-1 self-stretch py-16 md:py-20">
           <div className="flex flex-col gap-12">
             {/* Logo + tittel side om side */}
-            <div className="flex items-start gap-5">
-              <div className="relative shrink-0 w-[120px] self-stretch">
+            <div className="flex flex-col md:flex-row items-center md:items-start gap-5 md:gap-8 text-center md:text-left">
+              <div className="relative shrink-0 w-[68px] h-[80px] md:w-[85px] md:h-[100px]">
                 <Image
                   src="/hella sopperi logo beige.png"
                   alt="Hella Sopperi"
                   fill
-                  className="object-contain object-left"
+                  className="object-contain"
                 />
               </div>
-              <h2 className="font-serif text-umbi-beige leading-snug" style={{fontSize: 'clamp(1.875rem, 2.5vw, 2.5rem)'}}>
+              <h2 className="font-serif text-umbi-beige leading-snug text-headline md:text-display max-w-sm" style={{ fontSize: 'clamp(1.875rem, 2.5vw, 2.5rem)' }}>
                 Substrat fra naturen,<br />laget med kjærlighet
               </h2>
             </div>
             {/* Brødtekst + CTA */}
-            <div className="flex flex-col gap-12">
-              <div className="flex flex-col gap-4 max-w-[600px]">
-                <p className="font-sans text-body text-umbi-beige/50 leading-relaxed">
+            <div className="flex flex-col gap-10 md:gap-12 items-center md:items-start">
+              <div className="flex flex-col gap-4 max-w-[600px] text-center md:text-left">
+                <p className="font-serif text-body text-umbi-beige/60 leading-relaxed">
                   Alt vårt substrat er produsert av Hella Sopperi — norskprodusert, kortreist og trygt for deg og familien din. Substratet er laget av pasteurisert halm og næringsstoffer som gir soppmyceliet ideelle vekstforhold.
                 </p>
-                <p className="font-sans text-body text-umbi-beige/50 leading-relaxed">
+                <p className="font-serif text-body text-umbi-beige/60 leading-relaxed">
                   Hella Sopperi er et av Norges ledende soppgartneri, med fokus på bærekraft og kortreiste råvarer. Hver Umbi Pod er ferdig inokulert og klar til å vokse — direkte fra esken og inn i enheten din.
                 </p>
               </div>
@@ -216,7 +216,7 @@ export default function HomePage() {
                 href="https://www.hellasopperi.no/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block self-start px-6 py-3 bg-umbi-beige text-umbi-dark rounded-ui font-serif text-ui border-[0.5px] border-umbi-beige/80 hover:opacity-90 transition-opacity"
+                className="inline-flex h-[44px] px-[21px] items-center justify-center bg-umbi-beige text-umbi-dark rounded-ui font-serif text-ui border-[0.5px] border-white/80 hover:opacity-90 transition-opacity cursor-pointer"
               >
                 Gå til Hella Sopperi
               </a>
@@ -225,7 +225,7 @@ export default function HomePage() {
         </div>
 
         {/* Høyre: sopp-kort — flush mot høyre kant */}
-        <div className="grid grid-cols-2 grid-rows-1 gap-3 md:gap-4 lg:w-[49.5%] shrink-0 pr-6 md:pr-[var(--navbar-px-md)] py-16 md:py-20 self-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-2 grid-rows-2 md:grid-rows-1 gap-4 md:gap-4 lg:w-[49.5%] shrink-0 px-6 md:px-0 md:pr-[var(--navbar-px-md)] pb-16 md:py-20 self-stretch">
           {[
             {
               name: 'Rosa østersopp',
@@ -274,11 +274,11 @@ export default function HomePage() {
                   </span>
                 </div>
                 <div className="w-6 h-px bg-umbi-dark/15" />
-                <ul className="flex flex-col gap-1.5">
+                <ul className="flex flex-col gap-1.5 md:gap-2">
                   {mushroom.qualities.map((q) => (
                     <li key={q} className="flex items-center gap-2">
                       <span className="w-1 h-1 rounded-full bg-umbi-dark/25 shrink-0" />
-                      <span className="font-sans text-caption text-umbi-dark/60">{q}</span>
+                      <span className="font-serif text-caption text-umbi-dark/60">{q}</span>
                     </li>
                   ))}
                 </ul>

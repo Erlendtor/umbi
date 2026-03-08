@@ -317,7 +317,10 @@ Nar du gjor endringer pa en side, sjekk alltid:
 - [ ] Er border-radius-verdier semantiske tokens (`rounded-ui`, `rounded-card` osv.)?
 - [ ] Bruker knapper riktig hoyde, padding og kantykkelse (`border-[0.5px]`)?
 - [ ] Er hover-effekter konsistente (`hover:opacity-70/90`, `transition-colors duration-300 ease-in-out`)?
+- [ ] Har interaktive elementer (f.eks inputs) tydelige `:focus-visible` states for tastaturnavigasjon?
 - [ ] Er animasjoner med motion/react, ikke CSS-keyframes?
 - [ ] Bruker seksjonen `.section-padding*` og `.content-container*` i stedet for hardkodet padding?
 - [ ] Er nye tekstelementer `font-serif` (innhold) eller `font-sans` (labels/metadata)?
-- [ ] Er labels kombinert med `uppercase` og `tracking-[0.3em]` eller mer?
+- [ ] Er labels kombinert med `font-sans`, `uppercase` og `tracking-[0.3em]` eller mer?
+- [ ] Ser layouten bra ut på smale skjermer (mobil, <768px)? Unngå horisontal scroll!
+- [ ] Er knapper stablet hensiktsmessig på mobil (`flex-col sm:flex-row`)?

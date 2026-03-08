@@ -34,14 +34,13 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-[var(--navbar-px-md)] h-[var(--navbar-height)] backdrop-blur-[14px] border-b transition-colors duration-300 ease-in-out ${
-        isDark
+      className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-[var(--navbar-px-md)] h-[var(--navbar-height)] backdrop-blur-[14px] border-b transition-colors duration-300 ease-in-out ${isDark
           ? 'bg-white/[0.01] border-white/30'
           : 'bg-umbi-bg/80 border-umbi-dark/10'
-      }`}
+        }`}
     >
       {/* Logo — two images crossfade */}
-      <Link href="/" className="relative w-24 md:w-[103px] h-7 md:h-[29px]">
+      <Link href="/" className="relative w-24 md:w-[103px] h-7 md:h-[29px] cursor-pointer">
         <Image
           src="/Umbi logo beige.png"
           alt="Umbi"
@@ -60,23 +59,22 @@ export default function Navbar() {
       <div className="hidden md:flex items-center gap-[60px]">
         <Link
           href="/#slik-fungerer-det"
-          className={`font-serif text-body transition-colors duration-300 ease-in-out hover:opacity-70 ${isDark ? 'text-umbi-beige' : 'text-umbi-dark'}`}
+          className={`font-serif text-body transition-colors duration-300 ease-in-out hover:opacity-70 cursor-pointer ${isDark ? 'text-umbi-beige' : 'text-umbi-dark'}`}
         >
           Slik fungerer det
         </Link>
         <Link
           href="/reise"
-          className={`font-serif text-body transition-colors duration-300 ease-in-out hover:opacity-70 ${isDark ? 'text-umbi-beige' : 'text-umbi-dark'}`}
+          className={`font-serif text-body transition-colors duration-300 ease-in-out hover:opacity-70 cursor-pointer ${isDark ? 'text-umbi-beige' : 'text-umbi-dark'}`}
         >
           Vår reise
         </Link>
         <Link
           href="/design"
-          className={`px-[21px] py-[13px] rounded-ui font-serif text-ui border-[0.5px] transition-all duration-300 ease-in-out hover:opacity-90 ${
-            isDark
+          className={`px-[21px] py-[13px] rounded-ui font-serif text-ui border-[0.5px] transition-all duration-300 ease-in-out hover:opacity-90 cursor-pointer ${isDark
               ? 'bg-umbi-beige border-white/80 text-umbi-dark'
               : 'bg-umbi-dark border-umbi-dark text-umbi-beige'
-          }`}
+            }`}
         >
           Design din Umbi Uno
         </Link>
@@ -85,9 +83,8 @@ export default function Navbar() {
       <div className="md:hidden">
         <Link
           href="/design"
-          className={`px-4 py-2 rounded-ui font-serif text-caption transition-colors duration-300 ease-in-out ${
-            isDark ? 'bg-umbi-beige text-umbi-dark' : 'bg-umbi-dark text-umbi-beige'
-          }`}
+          className={`px-4 py-2 rounded-ui font-serif text-caption transition-colors duration-300 ease-in-out cursor-pointer ${isDark ? 'bg-umbi-beige text-umbi-dark' : 'bg-umbi-dark text-umbi-beige'
+            }`}
         >
           Design
         </Link>

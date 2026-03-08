@@ -6,36 +6,54 @@ import Navbar from '@/components/Navbar';
 import { motion, AnimatePresence } from 'motion/react';
 
 type Color = 'Svart' | 'Brun' | 'Sølv';
-type Pod   = 'Rosa' | 'Blågrå';
+type Pod = 'Rosa' | 'Blågrå';
 
 const colorImages: Record<Color, string> = {
   Svart: '/svart.png',
-  Brun:  '/brun.png',
-  Sølv:  '/svart.png',
+  Brun: '/brun.png',
+  Sølv: '/chrome.png',
+};
+
+const getProductImage = (color: Color, pod: Pod) => {
+  if (pod === 'Blågrå') {
+    switch (color) {
+      case 'Svart': return '/svart blå.png';
+      case 'Brun': return '/brun blå.png';
+      case 'Sølv': return '/chrome blå.png';
+    }
+  }
+  return colorImages[color];
 };
 
 const colorStyles: Record<Color, React.CSSProperties> = {
-  Brun:  { backgroundColor: 'var(--color-umbi-brown)' },
+  Brun: { backgroundColor: 'var(--color-umbi-brown)' },
   Svart: { backgroundColor: 'var(--color-umbi-black)' },
-  Sølv:  { background: 'linear-gradient(144.9deg, #9fa6ae 7%, #d6d5d1 34%, #bdb2af 68%, #dcc6bf 94%)' },
+  Sølv: { background: 'linear-gradient(144.9deg, #9fa6ae 7%, #d6d5d1 34%, #bdb2af 68%, #dcc6bf 94%)' },
 };
 
+const allProductImages = [
+  ...Object.values(colorImages),
+  '/svart blå.png',
+  '/brun blå.png',
+  '/chrome blå.png'
+];
+
 const pods: { name: Pod; label: string; desc: string; src: string }[] = [
-  { name: 'Rosa',   label: 'Rosa østersopp',   desc: 'Mild og nøtteaktig, perfekt til pasta og risotto.',  src: '/rosa sopp.png'   },
+  { name: 'Rosa', label: 'Rosa østersopp', desc: 'Mild og nøtteaktig, perfekt til pasta og risotto.', src: '/rosa sopp.png' },
   { name: 'Blågrå', label: 'Blågrå østersopp', desc: 'Kraftig umami-smak, ideell til kjøttretter og wok.', src: '/blågrå sopp.png' },
 ];
 
 const accessories = [
-  { name: 'Veggfeste', price: 350, note: 'Flis eller trevegg'    },
-  { name: 'Takfeste',  price: 400, note: 'Minimalistisk oppheng' },
+  { name: 'Veggfeste', price: 350, note: 'Flis eller trevegg' },
+  { name: 'Takfeste', price: 400, note: 'Minimalistisk oppheng' },
 ];
 
 export default function DesignPage() {
-  const [color, setColor]       = useState<Color>('Svart');
-  const [pod, setPod]           = useState<Pod>('Rosa');
+  const [color, setColor] = useState<Color>('Svart');
+  const [pod, setPod] = useState<Pod>('Rosa');
   const [selected, setSelected] = useState<string[]>([]);
-  const [email, setEmail]       = useState('');
-  const [status, setStatus]     = useState<'idle' | 'sending' | 'done' | 'error'>('idle');
+  const [email, setEmail] = useState('');
+  const [status, setStatus] = useState<'idle' | 'sending' | 'done' | 'error'>('idle');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -63,26 +81,34 @@ export default function DesignPage() {
   );
 
   return (
-    <main data-nav-theme="light" className="bg-umbi-beige min-h-screen">
+    <main data-nav-theme="light" className="bg-umbi-beige min-h-screen relative">
       <Navbar />
 
-      <div className="flex mt-[var(--navbar-height)] pl-6 md:pl-[var(--navbar-px-md)]">
+      {/* Preload alle produktbilder usynlig i bakgrunnen for å hindre hakking */}
+      <div aria-hidden="true" className="absolute w-px h-px opacity-0 pointer-events-none overflow-hidden z-[-1]">
+        {allProductImages.map((src) => (
+          <Image key={src} src={src} priority alt="" width={1} height={1} />
+        ))}
+      </div>
+
+      <div className="flex flex-col md:flex-row mt-[var(--navbar-height)] px-6 md:pl-[var(--navbar-px-md)] md:pr-0">
 
         {/* ── Left: product image ── */}
-        <div className="flex-1 py-6 pr-6 md:pr-16 sticky top-[var(--navbar-height)] h-[calc(100vh-var(--navbar-height))]">
+        <div className="flex-1 py-6 md:pr-16 relative md:sticky top-[var(--navbar-height)] h-[40vh] md:h-[calc(100vh-var(--navbar-height))]">
           <div className="relative h-full rounded-large overflow-hidden shadow-[0px_4px_22.8px_0px_rgba(0,0,0,0.25)]">
-            <AnimatePresence mode="wait">
+            <AnimatePresence>
               <motion.div
-                key={color}
+                key={`${color}-${pod}`}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.6, ease: 'easeInOut' }}
+                exit={{ opacity: 0.999 }}
+                transition={{ duration: 0.3, ease: 'easeInOut' }}
                 className="absolute inset-0"
+                style={{ zIndex: 10 }}
               >
                 <Image
-                  src={colorImages[color]}
-                  alt={`Umbi Uno ${color}`}
+                  src={getProductImage(color, pod)}
+                  alt={`Umbi Uno ${color} ${pod}`}
                   fill
                   className="object-cover"
                   priority
@@ -93,155 +119,151 @@ export default function DesignPage() {
         </div>
 
         {/* ── Right: configurator panel ── */}
-        <div className="min-w-[460px] w-[500px] shrink-0 flex flex-col min-h-[calc(100vh-var(--navbar-height))] py-8 pr-6 md:pr-[var(--navbar-px-md)] overflow-y-auto">
+        <div className="w-full md:w-[500px] md:min-w-[460px] shrink-0 flex flex-col min-h-[50vh] md:min-h-[calc(100vh-var(--navbar-height))] py-8 md:pr-[var(--navbar-px-md)] overflow-y-auto">
 
           {/* Midtdel: sentrert vertikalt i tilgjengelig plass */}
-          <div className="flex-1 flex flex-col justify-center gap-5">
+          <div className="flex-1 flex flex-col md:justify-center gap-6">
 
-          {/* 1 ── Logo · Undertekst · Fargevalg */}
-          <div className="flex flex-col items-center gap-4 pb-6">
+            {/* 1 ── Logo · Undertekst · Fargevalg */}
+            <div className="flex flex-col items-center gap-4 pb-6 border-b border-umbi-dark/5 md:border-none">
 
-            <div className="flex flex-col items-center gap-1.5">
-              <div className="relative w-[180px] h-[31px]">
-                <Image
-                  src="/Umbi Uno logo mørk.png"
-                  alt="Umbi Uno"
-                  fill
-                  className="object-contain"
-                />
+              <div className="flex flex-col items-center gap-1.5">
+                <div className="relative w-[180px] h-[31px]">
+                  <Image
+                    src="/Umbi Uno logo mørk.png"
+                    alt="Umbi Uno"
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+                <p className="font-sans font-bold uppercase tracking-[0.3em] text-label text-umbi-dark/40 text-center">
+                  Design din enhet
+                </p>
               </div>
-              <p className="font-serif text-caption text-umbi-dark/40 text-center">
-                Design din enhet
-              </p>
-            </div>
 
-            <div className="flex items-center gap-3 mt-2">
-              {(['Brun', 'Svart', 'Sølv'] as Color[]).map(c => (
-                <button
-                  key={c}
-                  onClick={() => setColor(c)}
-                  title={c}
-                  className="relative w-8 h-8 rounded-full focus:outline-none transition-transform duration-300 hover:scale-110"
-                  style={colorStyles[c]}
-                >
-                  {color === c && (
-                    <motion.span
-                      layoutId="colorRing"
-                      className="absolute inset-0 rounded-full ring-[1.5px] ring-offset-[3px] ring-umbi-dark"
-                      transition={{ duration: 0.2 }}
-                    />
-                  )}
-                </button>
-              ))}
-            </div>
-
-          </div>
-
-          {/* 2 ── Umbi Pod */}
-          <div className="flex flex-col gap-3 pb-6">
-
-            <span className="text-label font-sans font-bold uppercase tracking-[0.3em] text-umbi-dark/30 text-center block">
-              Velg inkludert Umbi Pod
-            </span>
-
-            <div className="flex gap-3">
-              {pods.map(p => {
-                const on = pod === p.name;
-                return (
+              <div className="flex items-center gap-3 mt-2">
+                {(['Brun', 'Svart', 'Sølv'] as Color[]).map(c => (
                   <button
-                    key={p.name}
-                    onClick={() => setPod(p.name)}
-                    className={`flex-1 flex flex-col rounded-card overflow-hidden border-[0.5px] transition-all duration-300 ${
-                      on
+                    key={c}
+                    onClick={() => setColor(c)}
+                    title={c}
+                    className="relative w-8 h-8 rounded-full focus:outline-none transition-transform duration-300 hover:scale-110 cursor-pointer"
+                    style={colorStyles[c]}
+                  >
+                    {color === c && (
+                      <motion.span
+                        layoutId="colorRing"
+                        className="absolute inset-0 rounded-full ring-[1.5px] ring-offset-[3px] ring-umbi-dark"
+                        transition={{ duration: 0.2 }}
+                      />
+                    )}
+                  </button>
+                ))}
+              </div>
+
+            </div>
+
+            {/* 2 ── Umbi Pod */}
+            <div className="flex flex-col gap-3 pb-6">
+
+              <span className="text-label font-sans font-bold uppercase tracking-[0.3em] text-umbi-dark/30 text-center block">
+                Velg inkludert Umbi Pod
+              </span>
+
+              <div className="flex gap-3">
+                {pods.map(p => {
+                  const on = pod === p.name;
+                  return (
+                    <button
+                      key={p.name}
+                      onClick={() => setPod(p.name)}
+                      className={`flex-1 flex flex-col rounded-card overflow-hidden border-[0.5px] transition-all duration-300 cursor-pointer ${on
                         ? 'border-umbi-dark/25 shadow-sm'
                         : 'border-umbi-dark/10 hover:border-umbi-dark/20'
-                    }`}
-                  >
-                    {/* Image */}
-                    <div className="relative h-[130px] overflow-hidden">
-                      <Image
-                        src={p.src}
-                        alt={p.label}
-                        fill
-                        className="object-cover transition-transform duration-500 hover:scale-105"
-                      />
-                      {on && <div className="absolute inset-0 bg-umbi-dark/5" />}
-                    </div>
+                        }`}
+                    >
+                      {/* Image */}
+                      <div className="relative h-[130px] overflow-hidden">
+                        <Image
+                          src={p.src}
+                          alt={p.label}
+                          fill
+                          className="object-cover transition-transform duration-500 hover:scale-105"
+                        />
+                        {on && <div className="absolute inset-0 bg-umbi-dark/5" />}
+                      </div>
 
-                    {/* Label block */}
-                    <div className={`px-3 py-3 flex flex-col gap-1 transition-colors duration-300 items-start ${
-                      on ? 'bg-umbi-bg' : 'bg-umbi-bg/40'
-                    }`}>
-                      <span className="font-serif text-caption text-umbi-dark leading-none text-left">
-                        {p.label}
-                      </span>
-                      <span className="font-serif italic text-caption text-umbi-dark/40 leading-snug text-left">
-                        {p.desc}
-                      </span>
-                    </div>
-                  </button>
-                );
-              })}
+                      {/* Label block */}
+                      <div className={`px-3 py-3 flex flex-col gap-1 transition-colors duration-300 items-start ${on ? 'bg-umbi-bg' : 'bg-umbi-bg/40'
+                        }`}>
+                        <span className="font-serif text-caption text-umbi-dark leading-none text-left">
+                          {p.label}
+                        </span>
+                        <span className="font-serif italic text-caption text-umbi-dark/40 leading-snug text-left">
+                          {p.desc}
+                        </span>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+
             </div>
 
-          </div>
+            {/* 3 ── Tillegg */}
+            <div className="flex flex-col gap-3 pb-6">
 
-          {/* 3 ── Tillegg */}
-          <div className="flex flex-col gap-3 pb-6">
+              <span className="text-label font-sans font-bold uppercase tracking-[0.3em] text-umbi-dark/30 text-center block">
+                Tillegg
+              </span>
 
-            <span className="text-label font-sans font-bold uppercase tracking-[0.3em] text-umbi-dark/30 text-center block">
-              Tillegg
-            </span>
-
-            <div className="flex flex-col gap-2">
-              {accessories.map(acc => {
-                const on = selected.includes(acc.name);
-                return (
-                  <button
-                    key={acc.name}
-                    onClick={() => toggle(acc.name)}
-                    className={`flex items-center justify-between px-4 py-3 rounded-card border-[0.5px] transition-all duration-300 text-left ${
-                      on
+              <div className="flex flex-col gap-2">
+                {accessories.map(acc => {
+                  const on = selected.includes(acc.name);
+                  return (
+                    <button
+                      key={acc.name}
+                      onClick={() => toggle(acc.name)}
+                      className={`flex items-center justify-between px-4 py-3 rounded-card border-[0.5px] transition-all duration-300 text-left cursor-pointer ${on
                         ? 'bg-umbi-bg border-umbi-dark/20'
                         : 'bg-transparent border-umbi-dark/10 hover:bg-umbi-bg/50 hover:border-umbi-dark/15'
-                    }`}
-                  >
-                    <p className="font-serif text-caption text-umbi-dark leading-none">
-                      {acc.name}
-                    </p>
-                    <div className="flex items-center gap-2.5 shrink-0 ml-3">
-                      <span className={`font-serif text-caption transition-colors duration-300 ${on ? 'text-umbi-dark' : 'text-umbi-dark/40'}`}>
-                        +{acc.price} kr
-                      </span>
-                      <div className={`w-[14px] h-[14px] rounded-[3px] border-[0.5px] flex items-center justify-center transition-all duration-300 ${
-                        on ? 'bg-umbi-dark border-umbi-dark' : 'border-umbi-dark/20'
-                      }`}>
-                        {on && (
-                          <motion.svg
-                            initial={{ opacity: 0, scale: 0.5 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.15 }}
-                            width="8" height="6"
-                            viewBox="0 0 8 6"
-                            fill="none"
-                          >
-                            <path
-                              d="M1 3L3 5L7 1"
-                              stroke="var(--color-umbi-beige)"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </motion.svg>
-                        )}
+                        }`}
+                    >
+                      <p className="font-serif text-caption text-umbi-dark leading-none">
+                        {acc.name}
+                      </p>
+                      <div className="flex items-center gap-2.5 shrink-0 ml-3">
+                        <span className={`font-serif text-caption transition-colors duration-300 ${on ? 'text-umbi-dark' : 'text-umbi-dark/40'}`}>
+                          +{acc.price} kr
+                        </span>
+                        <div className={`w-[14px] h-[14px] rounded-[3px] border-[0.5px] flex items-center justify-center transition-all duration-300 ${on ? 'bg-umbi-dark border-umbi-dark' : 'border-umbi-dark/20'
+                          }`}>
+                          {on && (
+                            <motion.svg
+                              initial={{ opacity: 0, scale: 0.5 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              transition={{ duration: 0.15 }}
+                              width="8" height="6"
+                              viewBox="0 0 8 6"
+                              fill="none"
+                            >
+                              <path
+                                d="M1 3L3 5L7 1"
+                                stroke="var(--color-umbi-beige)"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                            </motion.svg>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
+                    </button>
+                  );
+                })}
+              </div>
 
-          </div>
+            </div>
 
           </div>{/* slutt midtdel */}
 
@@ -279,7 +301,7 @@ export default function DesignPage() {
                 onChange={e => setEmail(e.target.value)}
                 placeholder="din@epost.no"
                 disabled={status === 'done'}
-                className="w-full h-[44px] px-4 bg-umbi-bg/60 border-[0.5px] border-umbi-dark/20 rounded-ui font-serif text-ui text-umbi-dark placeholder:text-umbi-dark/30 focus:outline-none focus:border-umbi-dark/50 transition-colors duration-300 disabled:opacity-40"
+                className="w-full h-[44px] px-4 bg-umbi-bg/60 border-[0.5px] border-umbi-dark/20 rounded-ui font-serif text-ui text-umbi-dark placeholder:text-umbi-dark/30 focus:outline-none focus:border-umbi-dark/50 focus-visible:ring-2 focus-visible:ring-umbi-dark/20 transition-colors duration-300 disabled:opacity-40"
               />
 
               <AnimatePresence mode="wait">
@@ -297,7 +319,7 @@ export default function DesignPage() {
                     key="btn"
                     type="submit"
                     disabled={status === 'sending'}
-                    className="w-full h-[44px] bg-umbi-dark text-umbi-beige rounded-ui font-serif text-ui border-[0.5px] border-umbi-dark hover:opacity-90 transition-opacity disabled:opacity-50"
+                    className="w-full h-[44px] bg-umbi-dark text-umbi-beige rounded-ui font-serif text-ui border-[0.5px] border-umbi-dark hover:opacity-90 transition-opacity disabled:opacity-50 cursor-pointer"
                   >
                     {status === 'sending' ? 'Sender…' : 'Sett meg på venteliste'}
                   </motion.button>
